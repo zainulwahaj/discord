@@ -26,6 +26,14 @@ function parseIdList(rawValue) {
     .filter(Boolean);
 }
 
+function parseBoolean(rawValue, fallbackValue = false) {
+  if (rawValue === undefined || rawValue.trim() === '') {
+    return fallbackValue;
+  }
+
+  return ['1', 'true', 'yes', 'on'].includes(rawValue.trim().toLowerCase());
+}
+
 export const config = {
   discordToken: process.env.DISCORD_TOKEN,
   geminiApiKey: process.env.GEMINI_API_KEY,
@@ -36,6 +44,7 @@ export const config = {
   botName: process.env.BOT_NAME || 'GeminiBot',
   allowedChannelIds: parseIdList(process.env.ALLOWED_CHANNEL_IDS),
   ownerDiscordId: process.env.OWNER_DISCORD_ID?.trim() || '',
+  enableMessageContentIntent: parseBoolean(process.env.ENABLE_MESSAGE_CONTENT_INTENT, false),
 };
 
 const requiredFields = [
